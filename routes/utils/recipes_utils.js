@@ -66,6 +66,7 @@ async function getRecipeDetails(recipe_id) {
     glutenFree,
     extendedIngredients,
     instructions,
+    analyzedInstructions,
     servings,
   } = recipe_info.data;
 
@@ -74,12 +75,13 @@ async function getRecipeDetails(recipe_id) {
     title: title,
     readyInMinutes: readyInMinutes,
     image: image,
-    popularity: aggregateLikes,
+    aggregateLikes: aggregateLikes,
     vegan: vegan,
     vegetarian: vegetarian,
     glutenFree: glutenFree,
     extendedIngredients: extendedIngredients,
     instructions: instructions,
+    analyzedInstructions: analyzedInstructions,
     servings: servings,
   };
 }
