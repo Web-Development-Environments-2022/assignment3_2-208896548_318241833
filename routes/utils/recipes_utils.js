@@ -109,6 +109,7 @@ async function searchForRecipes(search_params) {
       cuisine: search_params.cuisine,
       diet: search_params.diet,
       intolerances: search_params.intolerances,
+      sort: search_params.sort,
       apiKey: process.env.spooncular_apiKey,
     },
   });
