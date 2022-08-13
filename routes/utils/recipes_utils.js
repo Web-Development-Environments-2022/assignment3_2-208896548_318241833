@@ -110,6 +110,8 @@ async function searchForRecipes(search_params) {
       diet: search_params.diet,
       intolerances: search_params.intolerances,
       sort: search_params.sort,
+      sortDirection: search_params.sortDirection,
+      addRecipeInformation: true,
       apiKey: process.env.spooncular_apiKey,
     },
   });

@@ -29,6 +29,7 @@ router.get("/search", async (req, res, next) => {
   search_params.diet = req.query.diet;
   search_params.intolerances = req.query.intolerances;
   search_params.sort = req.query.sort;
+  search_params.sortDirection = req.query.sortDirection;
 
   try {
     let recipes = await recipes_utils.searchForRecipes(search_params);
