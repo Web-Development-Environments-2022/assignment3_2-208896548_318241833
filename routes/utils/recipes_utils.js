@@ -1,4 +1,5 @@
 const axios = require("axios");
+const DButils = require("./DButils");
 const api_domain = "https://api.spoonacular.com/recipes";
 
 /**
@@ -100,6 +101,11 @@ async function getRandomThreeRecipes() {
   return extractPreviewRecipeDetails(random_pool.data.recipes);
 }
 
+async function getFamilyRecipes() {
+  const recipes = await DButils.execQuery(`select * from family_recipes`);
+  return recipes;
+}
+
 async function searchForRecipes(search_params) {
   let search_res = await axios.get(`${api_domain}/complexSearch`, {
     params: {
@@ -122,4 +128,5 @@ async function searchForRecipes(search_params) {
 exports.getRecipeDetails = getRecipeDetails;
 exports.getRecipesPreview = getRecipesPreview;
 exports.getRandomThreeRecipes = getRandomThreeRecipes;
+exports.getFamilyRecipes = getFamilyRecipes;
 exports.searchForRecipes = searchForRecipes;

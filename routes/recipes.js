@@ -17,6 +17,18 @@ router.get("/random", async (req, res, next) => {
 });
 
 /**
+ * This path returns family recipes
+ */
+router.get("/family", async (req, res, next) => {
+  try {
+    let pool = await recipes_utils.getFamilyRecipes();
+    res.send(pool);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
  * This path returns a full details of a search query that filtered
  */
 router.get("/search", async (req, res, next) => {
