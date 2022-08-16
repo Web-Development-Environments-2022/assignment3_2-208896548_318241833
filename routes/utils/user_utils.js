@@ -13,6 +13,19 @@ async function getFavoriteRecipes(user_id) {
   return recipes_id;
 }
 
+async function addToHistory(user_id, recipe_id) {
+  await DButils.execQuery(
+    `insert into history values ('0', '${user_id}',${recipe_id})`
+  );
+}
+
+async function getHistory(user_id) {
+  const recipes_id = await DButils.execQuery(
+    `select recipe_id from history where user_id='${user_id}'`
+  );
+  return recipes_id;
+}
+
 async function inFavorites(user_id, recipe_id) {
   const result = await DButils.execQuery(
     `select COUNT(*) from FavoriteRecipes where (user_id='${user_id}' and recipe_id='${recipe_id}')`
@@ -22,7 +35,6 @@ async function inFavorites(user_id, recipe_id) {
 
 async function addMyRecipe(
   user_id,
-  id,
   title,
   readyInMinutes,
   image,
@@ -34,7 +46,7 @@ async function addMyRecipe(
   servings
 ) {
   await DButils.execQuery(
-    `insert into my_recipes values ('${user_id}','${id}','${title}','${readyInMinutes}','${image}','${vegan}','${vegetarian}','${glutenFree}','${extendedIngredients}','${instruction}','${servings}')`
+    `insert into my_recipes values ('${user_id}','0','${title}','${readyInMinutes}','${image}','${vegan}','${vegetarian}','${glutenFree}','${extendedIngredients}','${instruction}','${servings}')`
   );
 }
 
@@ -58,3 +70,5 @@ exports.inFavorites = inFavorites;
 exports.addMyRecipe = addMyRecipe;
 exports.getMyRecipes = getMyRecipes;
 exports.getMyRecipeDetails = getMyRecipeDetails;
+exports.getHistory = getHistory;
+exports.addToHistory = addToHistory;

@@ -52,6 +52,38 @@ router.get("/favorites", async (req, res, next) => {
   }
 });
 
+/**
+ * This path gets body with recipeId and save this recipe in the history
+ */
+router.post("/history", async (req, res, next) => {
+  try {
+    const user_id = req.session.username;
+    const recipe_id = req.body.recipeId;
+    await user_utils.addToHistory(user_id, recipe_id);
+    res.status(200).send("The Recipe successfully added to history");
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * This path returns the favorites recipes that were saved by history
+ */
+router.get("/history", async (req, res, next) => {
+  try {
+    const user_id = req.session.username;
+    const recipes_id = await user_utils.getHistory(user_id);
+    let recipes_id_array = [];
+    recipes_id.map((element) => recipes_id_array.push(element.recipe_id)); //extracting the recipe ids into array
+    const results = await recipe_utils.getRecipesPreview(
+      recipes_id_array.slice(-3)
+    );
+    res.status(200).send(results);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/inFavorites", async (req, res, next) => {
   try {
     const user_id = req.session.username;
@@ -66,7 +98,6 @@ router.get("/inFavorites", async (req, res, next) => {
 router.post("/addRecipe", async (req, res, next) => {
   try {
     const user_id = req.session.username;
-    const id = "0";
     const title = req.body.title;
     const readyInMinutes = req.body.readyInMinutes;
     const image = req.body.image;
@@ -78,7 +109,6 @@ router.post("/addRecipe", async (req, res, next) => {
     const servings = req.body.servings;
     await user_utils.addMyRecipe(
       user_id,
-      id,
       title,
       readyInMinutes,
       image,
