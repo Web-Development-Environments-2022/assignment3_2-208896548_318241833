@@ -42,11 +42,52 @@ router.post("/favorites", async (req, res, next) => {
 router.get("/favorites", async (req, res, next) => {
   try {
     const user_id = req.session.username;
-    let favorite_recipes = {};
     const recipes_id = await user_utils.getFavoriteRecipes(user_id);
     let recipes_id_array = [];
     recipes_id.map((element) => recipes_id_array.push(element.recipe_id)); //extracting the recipe ids into array
     const results = await recipe_utils.getRecipesPreview(recipes_id_array);
+    res.status(200).send(results);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/addRecipe", async (req, res, next) => {
+  try {
+    const user_id = req.session.username;
+    const id = "0";
+    const title = req.body.title;
+    const readyInMinutes = req.body.readyInMinutes;
+    const image = req.body.image;
+    const vegan = req.body.vegan;
+    const vegetarian = req.body.vegetarian;
+    const glutenFree = req.body.glutenFree;
+    const extendedIngredients = req.body.extendedIngredients;
+    const instruction = req.body.instructions;
+    const servings = req.body.servings;
+    await user_utils.addMyRecipe(
+      user_id,
+      id,
+      title,
+      readyInMinutes,
+      image,
+      vegan,
+      vegetarian,
+      glutenFree,
+      extendedIngredients,
+      instruction,
+      servings
+    );
+    res.status(200).send("The Recipe successfully saved");
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/addRecipe", async (req, res, next) => {
+  try {
+    const user_id = req.session.username;
+    const results = await user_utils.getMyRecipes(user_id);
     res.status(200).send(results);
   } catch (error) {
     next(error);
