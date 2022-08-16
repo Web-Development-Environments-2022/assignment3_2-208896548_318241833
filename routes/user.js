@@ -105,4 +105,13 @@ router.get("/addRecipe", async (req, res, next) => {
   }
 });
 
+router.get("/recipes/info", async (req, res, next) => {
+  try {
+    const recipe = await user_utils.getMyRecipeDetails(req.query.recipeId);
+    res.send(recipe);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

@@ -63,4 +63,15 @@ router.get("/info", async (req, res, next) => {
   }
 });
 
+router.get("/family/info", async (req, res, next) => {
+  try {
+    const recipe = await recipes_utils.getFamilyRecipeDetails(
+      req.query.recipeId
+    );
+    res.send(recipe);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

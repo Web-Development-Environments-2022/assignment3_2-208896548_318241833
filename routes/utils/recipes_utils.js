@@ -87,6 +87,13 @@ async function getRecipeDetails(recipe_id) {
   };
 }
 
+async function getFamilyRecipeDetails(recipe_id) {
+  const recipes = await DButils.execQuery(
+    `select * from family_recipes where id='${recipe_id}'`
+  );
+  return recipes;
+}
+
 async function getRecipesPreview(recipes_ids_list) {
   let promises = [];
   recipes_ids_list.map((id) => {
@@ -124,8 +131,8 @@ async function searchForRecipes(search_params) {
 
   return search_res.data;
 }
-
 exports.getRecipeDetails = getRecipeDetails;
+exports.getFamilyRecipeDetails = getFamilyRecipeDetails;
 exports.getRecipesPreview = getRecipesPreview;
 exports.getRandomThreeRecipes = getRandomThreeRecipes;
 exports.getFamilyRecipes = getFamilyRecipes;
