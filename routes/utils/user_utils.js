@@ -13,6 +13,13 @@ async function getFavoriteRecipes(user_id) {
   return recipes_id;
 }
 
+async function inFavorites(user_id, recipe_id) {
+  const result = await DButils.execQuery(
+    `select COUNT(*) from FavoriteRecipes where (user_id='${user_id}' and recipe_id='${recipe_id}')`
+  );
+  return result;
+}
+
 async function addMyRecipe(
   user_id,
   id,
@@ -40,5 +47,6 @@ async function getMyRecipes(user_id) {
 
 exports.markAsFavorite = markAsFavorite;
 exports.getFavoriteRecipes = getFavoriteRecipes;
+exports.inFavorites = inFavorites;
 exports.addMyRecipe = addMyRecipe;
 exports.getMyRecipes = getMyRecipes;

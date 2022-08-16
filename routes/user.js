@@ -52,6 +52,17 @@ router.get("/favorites", async (req, res, next) => {
   }
 });
 
+router.get("/inFavorites", async (req, res, next) => {
+  try {
+    const user_id = req.session.username;
+    const recipe_id = req.query.recipeId;
+    const results = await user_utils.inFavorites(user_id, recipe_id);
+    res.status(200).send(results);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post("/addRecipe", async (req, res, next) => {
   try {
     const user_id = req.session.username;
